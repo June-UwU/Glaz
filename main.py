@@ -1,7 +1,6 @@
 #4717
 import discord
  
-Client = discord.Client()
 GUILD = 'R6S'
 
 class MyClient(discord.Client):
