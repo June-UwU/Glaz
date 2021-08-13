@@ -11,10 +11,11 @@ class MyClient(discord.Client):
 			f'{self.user} is connected to the following guild:\n'
 			f'{guild.name}(id: {guild.id})'
 		)
-	
+
 	async def on_member_join(self,member):
 		await member.create_dm()
 		await member.dm_channel.send(f'Welcome {GUILD},{member.name}')
+
 	
 	async def on_message(self,message):
 		if message.author == Client.user:
@@ -31,4 +32,4 @@ class MyClient(discord.Client):
 
 
 client = MyClient()
-client.run("ODc1ODAxMzg1NjAwNDMwMTIw.YRazmQ.EaRcqOZV-92xUgQnMKBp94zDV88")
+client.run()
