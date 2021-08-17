@@ -23,7 +23,12 @@ class MyClient(discord.Client):
 		await member.dm_channel.send(f'Welcome {GUILD},{member.name}')
 		member.guild_permissions = Permissions.none
 
-	
+	async def on_reaction_add(self,reaction, user):
+		channel = reaction.message.channel
+		await channel.send(f'{user} gave reaction to {reaction.message.author.name}')
+
+
+
 	async def on_message(self, message):
 		if message.author == self.user:
 			return
@@ -32,7 +37,7 @@ class MyClient(discord.Client):
 				parameter = ''
 				for i in range(0,int(RANGE)):
 					parameter =parameter + message.content[i]
-					#print (parameter)
+					print (parameter)
 					if i == 4:
 						if parameter == "$ping":
 							guild = message.guild
@@ -61,11 +66,20 @@ class MyClient(discord.Client):
 							for i in range(1,len(member.roles)):
 								text = member.roles[i].name + ''
 							await message.channel.send(f'{text}')
-							break
+							break 
+					if i == 10:
+						if parameter == '$Createrole':
+							Rolename = ''
+							Guild = message.guild
+							for i in range(len('$Createrole')+1,len(message.content)):
+								Rolename += message.content[i]
+							print(Rolename)
+							print(Guild.name)
+							Permissions = {discord.Permissions.read_messages:True}
+							await Guild.create_role(name = Rolename)
 						else:
 							await message.channel.send("ummm i don't know what to do")
-							break 
-					
+							break
 
 #Userroles - 9
 
