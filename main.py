@@ -74,9 +74,53 @@ class MyClient(discord.Client):
 										 ,connect = True,create_instant_invite = True,embed_links = True,external_emojis = True,read_messages = True
 										 ,read_message_history = True,send_messages = True,speak  = True,stream = True,view_channel = True) 
 							Guild = message.guild
-							for i in range(len('$Createrole')+1,len(message.content)):
-								Rolename += message.content[i]
+							for z in range(len('$Createrole')+1,len(message.content)):
+								if message.content[z] == '-':
+									symbol = message.content[z] + message.content[z+1]
+									if symbol == '-N':
+										count = z + 2
+										for k in range(count , len(message.content)):
+											if message.content[k] == ' ':
+												z = count
+												break
+											elif message.content[k] == '"':
+												continue
+											else:
+												Rolename = Rolename + message.content[k]
+									elif symbol == '-A':
+										Permission = discord.Permissions.all()
+										z += 2
+									elif symbol == '-a':
+										Permission = discord.Permissions.advanced()
+										z+= 2
+									elif symbol == '-C':
+										Permission = discord.Permissions.all_channel()
+										z+= 2
+									elif symbol == '-G':
+										Permission = discord.Permissions.general()
+										z+= 2
+									elif symbol == '-M':
+										Permission = discord.Permissions.membership()
+										z+= 2
+									elif symbol == '-N':
+										Permission = discord.Permissions.none()
+										z+= 2
+									elif symbol == '-s':
+										Permission = discord.Permissions.stage()
+										z+= 2
+									elif symbol == '-S':
+										Permission = discord.Permissions.stage_moderator()
+										z+= 2
+									elif symbol == '-T':
+										Permission = discord.Permissions.text()
+										z+= 2
+									elif symbol == '-V':
+										Permission = discord.Permissions.voice()
+										z+= 2
+									else:
+										await message.channel.send("invalid command")
 							await Guild.create_role(name = Rolename,permissions = Permission)
+							break
 						else:
 							await message.channel.send("ummm i don't know what to do")
 							break
