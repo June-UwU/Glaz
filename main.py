@@ -42,27 +42,37 @@ class MyClient(discord.Client):
 						if i == 3:
 							if message.author.guild_permissions.kick_members | message.author.guild_permissions.administrator:
 								if parameter == "$ban":
+									name = ''
+									cause = ''
 									for z in range(len('$ban')+1,len(message.content)):
-										name = ''
 										if message.content[z] == '-':
 											symbol = message.content[z] + message.content[z+1]
+											count = z+2
 											if symbol == '-U':
-												for k in range(z+2 , len(message.content)):
+												for k in range(count + 1, len(message.content)):
 														if message.content[k] == ',':
-															z = count
+															z = k + 1
 															break
 														elif message.content[k] == '"':
 															continue
 														else:
 															name = name + message.content[k]
-										banned = False
-										for memb in message.guild.members:
-											if memb.name == name:
-												banned = True
-												await message.channel.send(f"Banned {name}")
-												await message.guild.ban(memb)
-											else:
-												continue
+											elif symbol == '-R':
+												for k in range(count, len(message.content)):
+													if message.content[k] == ',':
+															z = k + 1
+															break
+													elif message.content[k] == '"':
+														continue
+													else:
+														cause += message.content[k]
+									for memb in message.guild.members:
+										if memb.name == name:
+											await message.channel.send(f"Banned {name}")
+											await memb.dm_channel.send(f'Banned for : {cause}')
+											await message.guild.ban(user = memb,reason = cause)
+										else:
+											continue
 									break
 						if i == 4:
 							if parameter == "$ping":
