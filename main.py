@@ -70,13 +70,13 @@ class MyClient(discord.Client):
 					if i == 10:
 						if parameter == '$Createrole':
 							Rolename = ''
+							Permission  = discord.Permissions(add_reactions = True, attach_files = True,change_nickname = True
+										 ,connect = True,create_instant_invite = True,embed_links = True,external_emojis = True,read_messages = True
+										 ,read_message_history = True,send_messages = True,speak  = True,stream = True,view_channel = True) 
 							Guild = message.guild
 							for i in range(len('$Createrole')+1,len(message.content)):
 								Rolename += message.content[i]
-							print(Rolename)
-							print(Guild.name)
-							Permissions = {discord.Permissions.read_messages:True}
-							await Guild.create_role(name = Rolename)
+							await Guild.create_role(name = Rolename,permissions = Permission)
 						else:
 							await message.channel.send("ummm i don't know what to do")
 							break
